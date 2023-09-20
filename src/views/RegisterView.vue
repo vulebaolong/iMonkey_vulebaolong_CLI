@@ -2,36 +2,27 @@
     <div class="mt-8">
         <div class="container">
             <!-- FROM -->
-            <form class="space-y-6" @submit.prevent="handleSubmit">
-                <!-- FULL NAME -->
-                <div class="row">
-                    <label class="flex flex-col" for="fullName">
-                        <span class="font-semibold">Full name</span>
-                        <input v-model="values.fullName" class="px-4 py-3 mt-1 border border-gray-100 rounded-lg" type="text" placeholder="iMoney..." id="fullName" />
-                    </label>
-                </div>
+            <a-form :model="formState" layout="vertical" @finish="onFinish" @finishFailed="onFinishFailed">
+                <!-- NAME -->
+                <a-form-item label="Full Name" name="name" :rules="[{ required: true, message: 'Please input your full name' }]">
+                    <a-input v-model:value="formState.name" size="large" />
+                </a-form-item>
 
                 <!-- EMAIL -->
-                <div class="row">
-                    <label class="flex flex-col" for="email">
-                        <span class="font-semibold">Email</span>
-                        <input v-model="values.email" class="px-4 py-3 mt-1 border border-gray-100 rounded-lg" type="text" placeholder="example@gmail.com" id="email" />
-                    </label>
-                </div>
+                <a-form-item label="Email" name="email" :rules="[{ required: true, message: 'Please input your password!' }]">
+                    <a-input v-model:value="formState.email" size="large" />
+                </a-form-item>
 
                 <!-- PASSWORD -->
-                <div class="row">
-                    <label class="flex flex-col" for="password">
-                        <span class="font-semibold">Password</span>
-                        <input v-model="values.password" class="px-4 py-3 mt-1 border border-gray-100 rounded-lg" type="text" placeholder="password" id="password" />
-                    </label>
-                </div>
+                <a-form-item label="Password" name="password" :rules="[{ required: true, message: 'Please input your password!' }]">
+                    <a-input-password v-model:value="formState.password" size="large" />
+                </a-form-item>
 
                 <!-- BUTTON -->
-                <div class="row">
-                    <button class="w-full py-3 font-bold text-white rounded-lg bg-primary" type="submit">Sign In</button>
-                </div>
-            </form>
+                <a-form-item>
+                    <a-button :loading="loadingBtn" class="w-full" size="large" type="primary" html-type="submit">Sign In</a-button>
+                </a-form-item>
+            </a-form>
 
             <!-- DIRECTION -->
             <div class="w-full mt-6 text-center">
@@ -45,13 +36,34 @@
 </template>
 
 <script lang="ts" setup>
+import { userApi } from "@/api/userApi";
+import { error, success } from "@/helpers/messageHelper";
 import { reactive } from "vue";
-const values = reactive({
-    fullName: "",
+import { ref } from "vue";
+
+const loadingBtn = ref(false);
+
+const formState = reactive({
+    name: "",
     email: "",
     password: "",
 });
-const handleSubmit = () => {
-    console.log(values);
+
+const onFinish = async (values: any) => {
+    try {
+        console.log("Success:", values);
+        loadingBtn.value = true;
+        const { data } = await userApi.register(formState);
+        success("Đăng ký thành công");
+    } catch (err) {
+        console.log(err);
+        error("Đăng ký không thành công");
+    } finally {
+        loadingBtn.value = false;
+    }
+};
+
+const onFinishFailed = (errorInfo: any) => {
+    console.log("Failed:", errorInfo);
 };
 </script>

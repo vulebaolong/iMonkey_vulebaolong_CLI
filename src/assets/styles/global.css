@@ -4,6 +4,14 @@ body {
     @apply bg-dark-light;
 }
 
+.anticon {
+    vertical-align: 0.1em;
+}
+
+.ant-btn-primary {
+    background-color: #1668dc;
+}
+
 /*! SCROLLBAR - start */
 * {
     scrollbar-width: thin;

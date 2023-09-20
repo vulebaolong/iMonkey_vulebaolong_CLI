@@ -2,28 +2,22 @@
     <div class="mt-8">
         <div class="container">
             <!-- FROM -->
-            <form class="space-y-6" @submit.prevent="handleSubmit">
+            <a-form :model="formState" layout="vertical" @finish="onFinish" @finishFailed="onFinishFailed">
                 <!-- EMAIL -->
-                <div class="row">
-                    <label class="flex flex-col" for="email">
-                        <span class="font-semibold">Email</span>
-                        <input class="px-4 py-3 mt-1 border border-gray-100 rounded-lg" type="text" placeholder="example@gmail.com" id="email" />
-                    </label>
-                </div>
+                <a-form-item label="Email" name="email" :rules="[{ required: true, message: 'Please input your password!' }]">
+                    <a-input v-model:value="formState.email" size="large" />
+                </a-form-item>
 
                 <!-- PASSWORD -->
-                <div class="row">
-                    <label class="flex flex-col" for="password">
-                        <span class="font-semibold">Password</span>
-                        <input class="px-4 py-3 mt-1 border border-gray-100 rounded-lg" type="text" placeholder="password" id="password" />
-                    </label>
-                </div>
+                <a-form-item label="Password" name="password" :rules="[{ required: true, message: 'Please input your password!' }]">
+                    <a-input-password v-model:value="formState.password" size="large" />
+                </a-form-item>
 
                 <!-- BUTTON -->
-                <div class="row">
-                    <button class="w-full py-3 font-bold text-white rounded-lg bg-primary" type="submit">Login</button>
-                </div>
-            </form>
+                <a-form-item>
+                    <a-button :loading="loadingBtn" class="w-full" size="large" type="primary" html-type="submit">Sign In</a-button>
+                </a-form-item>
+            </a-form>
 
             <!-- DIRECTION -->
             <div class="w-full mt-6 text-center">
@@ -37,7 +31,29 @@
 </template>
 
 <script lang="ts" setup>
-const handleSubmit = () => {
-    console.log(123);
+import { userApi } from "@/api/userApi";
+import { error, success } from "@/helpers/messageHelper";
+import { reactive } from "vue";
+import { ref } from "vue";
+import { useStore } from "vuex";
+
+const store = useStore();
+
+const loadingBtn = ref(false);
+
+const formState = reactive({
+    email: "",
+    password: "",
+});
+
+const onFinish = (values: any) => {
+    loadingBtn.value = true;
+    store.dispatch("login", values).then((result) => {
+        if (result) loadingBtn.value = false;
+    });
+};
+
+const onFinishFailed = (errorInfo: any) => {
+    console.log("Failed:", errorInfo);
 };
 </script>

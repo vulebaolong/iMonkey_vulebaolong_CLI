@@ -1,6 +1,6 @@
 import axios from "axios";
 import { TOKEN, BASE_URL } from "./../constant/index";
-import { lcStorage } from "./../helper/lcStorage";
+import { lcStorage } from "../helpers/lcStorage";
 
 // Thiết lập URL cơ sở
 axios.defaults.baseURL = BASE_URL;

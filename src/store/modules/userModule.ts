@@ -1,6 +1,9 @@
-import { USER_LOGIN } from "@/constant";
-import { lcStorage } from "@/helper/lcStorage";
+import { TOKEN, USER_LOGIN } from "@/constant";
+import { lcStorage } from "@/helpers/lcStorage";
 import { Module, MutationTree, ActionTree, GetterTree, Commit } from "vuex";
+import { userApi } from "./../../api/userApi";
+import { error, success } from "@/helpers/messageHelper";
+import { I_login, I_login_res } from "@/interfaces/userInterface";
 
 // Định nghĩa kiểu cho state
 interface UserState {
@@ -10,12 +13,12 @@ interface UserState {
 
 // Định nghĩa kiểu cho mutations
 interface UserMutations extends MutationTree<UserState> {
-    setUser(state: UserState, user: object): void;
+    setUserLogin(state: UserState, user: I_login_res): void;
 }
 
 // Định nghĩa kiểu cho actions
 interface UserActions extends ActionTree<UserState, any> {
-    fetchUser(context: { commit: Commit }, userId: number): void;
+    login(context: { commit: Commit }, payloadLogin: I_login): void;
 }
 
 const userState: UserState = {
@@ -24,24 +27,31 @@ const userState: UserState = {
 };
 
 const userMutations: UserMutations = {
-    setUser(state, user) {
+    setUserLogin(state, user) {
         state.userLogin = user;
     },
 };
 
 const userActions: UserActions = {
-    async fetchUser({ commit }, userId) {
+    async login({ commit }, reqData) {
         try {
-            const response = await fetch(`/api/users/${userId}`);
-            const userData = await response.json();
-            commit("setUser", userData);
-        } catch (error) {
-            console.error("Error fetching user:", error);
+            const { data } = await userApi.login(reqData);
+
+            lcStorage.set(USER_LOGIN, data);
+
+            lcStorage.set(TOKEN, data.token);
+
+            commit('setUserLogin', data)
+
+            success("Đăng nhập thành công");
+        } catch (err) {
+            console.log(err);
+            error("Đăng nhập thành công");
+        } finally {
+            return true;
         }
     },
 };
-
-
 
 const userModule: Module<UserState, any> = {
     state: userState,
