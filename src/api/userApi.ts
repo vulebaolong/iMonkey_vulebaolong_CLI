@@ -1,12 +1,12 @@
-import { I_login, I_login_res, I_register } from "@/interfaces/userInterface";
+import { I_login_req, I_login_res, I_register_req } from "@/interfaces/userInterface";
 import axios from "axios";
 
 export const userApi = {
-    register: (data: I_register) => {
+    register: (data: I_register_req) => {
         return axios.post(`/auth/register`, data);
     },
 
-    login: (data: I_login):Promise<{data: I_login_res}> => {
+    login: (data: I_login_req): Promise<{ data: I_login_res }> => {
         return axios.post(`/auth/login`, data);
     },
 };

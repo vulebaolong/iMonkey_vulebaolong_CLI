@@ -5,12 +5,12 @@
             <a-form :model="formState" layout="vertical" @finish="onFinish" @finishFailed="onFinishFailed">
                 <!-- EMAIL -->
                 <a-form-item label="Email" name="email" :rules="[{ required: true, message: 'Please input your password!' }]">
-                    <a-input v-model:value="formState.email" size="large" />
+                    <a-input v-model:value="formState.email" size="large" autocomplete="email" />
                 </a-form-item>
 
                 <!-- PASSWORD -->
                 <a-form-item label="Password" name="password" :rules="[{ required: true, message: 'Please input your password!' }]">
-                    <a-input-password v-model:value="formState.password" size="large" />
+                    <a-input-password v-model:value="formState.password" size="large" autocomplete="current-password" />
                 </a-form-item>
 
                 <!-- BUTTON -->
@@ -31,26 +31,21 @@
 </template>
 
 <script lang="ts" setup>
-import { userApi } from "@/api/userApi";
-import { error, success } from "@/helpers/messageHelper";
-import { reactive } from "vue";
-import { ref } from "vue";
+import { computed, reactive } from "vue";
+import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 
 const store = useStore();
 
-const loadingBtn = ref(false);
+const loadingBtn = computed(() => store.state.userModule.loadingBtn);
 
 const formState = reactive({
-    email: "",
-    password: "",
+    email: store.state.userModule.autoFill?.email || "long@gmail.com",
+    password: store.state.userModule.autoFill?.password || "123456",
 });
 
 const onFinish = (values: any) => {
-    loadingBtn.value = true;
-    store.dispatch("login", values).then((result) => {
-        if (result) loadingBtn.value = false;
-    });
+    store.dispatch("userModule/login", values);
 };
 
 const onFinishFailed = (errorInfo: any) => {

@@ -5,17 +5,17 @@
             <a-form :model="formState" layout="vertical" @finish="onFinish" @finishFailed="onFinishFailed">
                 <!-- NAME -->
                 <a-form-item label="Full Name" name="name" :rules="[{ required: true, message: 'Please input your full name' }]">
-                    <a-input v-model:value="formState.name" size="large" />
+                    <a-input v-model:value="formState.name" size="large" autocomplete="name" />
                 </a-form-item>
 
                 <!-- EMAIL -->
                 <a-form-item label="Email" name="email" :rules="[{ required: true, message: 'Please input your password!' }]">
-                    <a-input v-model:value="formState.email" size="large" />
+                    <a-input v-model:value="formState.email" size="large" autocomplete="email" />
                 </a-form-item>
 
                 <!-- PASSWORD -->
                 <a-form-item label="Password" name="password" :rules="[{ required: true, message: 'Please input your password!' }]">
-                    <a-input-password v-model:value="formState.password" size="large" />
+                    <a-input-password v-model:value="formState.password" size="large" autocomplete="new-password" />
                 </a-form-item>
 
                 <!-- BUTTON -->
@@ -38,8 +38,11 @@
 <script lang="ts" setup>
 import { userApi } from "@/api/userApi";
 import { error, success } from "@/helpers/messageHelper";
+import router from "@/router";
 import { reactive } from "vue";
 import { ref } from "vue";
+import { useStore } from "vuex";
+const store = useStore();
 
 const loadingBtn = ref(false);
 
@@ -51,10 +54,18 @@ const formState = reactive({
 
 const onFinish = async (values: any) => {
     try {
-        console.log("Success:", values);
         loadingBtn.value = true;
-        const { data } = await userApi.register(formState);
+
+        await userApi.register(values);
+
         success("Đăng ký thành công");
+
+        store.commit("userModule/setAutoFill", {
+            email: values.email,
+            password: values.password,
+        });
+
+        router.push("/login");
     } catch (err) {
         console.log(err);
         error("Đăng ký không thành công");

@@ -9,18 +9,24 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: "/register",
         name: "register",
-        meta: {
-            layout: "auth",
-        },
+        meta: { layout: "auth" },
         component: () => import(/* webpackChunkName: "about" */ "../views/RegisterView.vue"),
     },
     {
         path: "/login",
         name: "login",
-        meta: {
-            layout: "auth",
-        },
+        meta: { layout: "auth" },
         component: () => import(/* webpackChunkName: "about" */ "../views/LoginView.vue"),
+    },
+    {
+        path: "/profile",
+        name: "profile",
+        component: () => import(/* webpackChunkName: "about" */ "../views/ProfileView.vue"),
+    },
+    {
+        path: "/logout",
+        name: "logout",
+        component: () => import(/* webpackChunkName: "about" */ "../views/LogoutView.vue"),
     },
 ];
 
