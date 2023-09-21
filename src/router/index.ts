@@ -1,3 +1,5 @@
+import { USER_LOGIN } from "@/constant";
+import { lcStorage } from "@/helpers/lcStorage";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
@@ -22,6 +24,15 @@ const routes: Array<RouteRecordRaw> = [
         path: "/profile",
         name: "profile",
         component: () => import(/* webpackChunkName: "about" */ "../views/ProfileView.vue"),
+        beforeEnter(to, from, next) {
+            if (!lcStorage.get(USER_LOGIN)) {
+                // Chuyển hướng nếu người dùng chưa đăng nhập
+                next("/login");
+            } else {
+                // Nếu đã đăng nhập, tiếp tục hiển thị component
+                next();
+            }
+        }
     },
     {
         path: "/logout",

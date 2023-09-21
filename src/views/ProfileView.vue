@@ -42,15 +42,15 @@ import { useStore } from "vuex";
 import { I_login_res } from "@/interfaces/userInterface";
 
 export default {
-    beforeRouteEnter(to: RouteLocationRaw, from: RouteLocationRaw, next: any) {
-        if (!lcStorage.get(USER_LOGIN)) {
-            // Chuyển hướng nếu người dùng chưa đăng nhập
-            next("/login");
-        } else {
-            // Nếu đã đăng nhập, tiếp tục hiển thị component
-            next();
-        }
-    },
+    // beforeRouteEnter(to: RouteLocationRaw, from: RouteLocationRaw, next: any) {
+    //     if (!lcStorage.get(USER_LOGIN)) {
+    //         // Chuyển hướng nếu người dùng chưa đăng nhập
+    //         next("/login");
+    //     } else {
+    //         // Nếu đã đăng nhập, tiếp tục hiển thị component
+    //         next();
+    //     }
+    // },
     
     setup() {
         const store = useStore();
