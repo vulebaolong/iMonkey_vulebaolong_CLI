@@ -1,6 +1,6 @@
 <template>
     <!-- FORM -->
-    <a-form class="pb-10" :model="formState" layout="vertical" @finish="onFinish" @finishFailed="onFinishFailed">
+    <a-form :model="formState" layout="vertical" @finish="onFinish" @finishFailed="onFinishFailed">
         <!-- MAIN FORM -->
         <div class="py-4 mt-8 bg-white rounded-lg">
             <div class="container px-8">
@@ -19,14 +19,21 @@
 
                 <!-- CATEGORY -->
                 <div class="flex items-center truncate">
-                    <label for="category" class="flex items-center mb-6 h-[38px]">
+                    <label for="note" class="flex items-center mb-6 h-[38px]">
                         <div class="flex items-center w-12 h-full mr-4 leading-10 text-right">
-                            <span class="inline-block w-6 h-6 ml-auto rounded-md" :style="{ background: color }"></span>
+                            <span class="inline-block w-8 h-8 ml-auto">
+                                <i class="text-2xl t2ico t2ico-category"></i>
+                            </span>
                         </div>
                     </label>
                     <a-form-item class="flex-1 overflow-hidden border-b border-gray-100" name="category_Id" :rules="[{ required: true, message: 'Please input your category!' }]">
-                        <a-select ref="select" v-model:value="formState.category_Id" :bordered="false" class="w-full" @change="handleChange">
-                            <a-select-option class="truncate" v-for="category in listCategory" :key="category._id" :value="category._id">{{ category.title }}</a-select-option>
+                        <a-select ref="select" v-model:value="formState.category_Id" :bordered="false" class="w-full">
+                            <a-select-option class="truncate" v-for="category in listCategory" :key="category._id" :value="category._id">
+                                <div class="flex items-center w-full gap-2">
+                                    <span class="flex-shrink-0 w-6 h-6 rounded-md" :style="{ background: category.color }"></span>
+                                    <span class="text-base font-semibold truncate text-dark">{{ category.title }}</span>
+                                </div>
+                            </a-select-option>
                         </a-select>
                     </a-form-item>
                 </div>
@@ -60,7 +67,7 @@
                 </div>
 
                 <!-- WALLET -->
-                <div class="flex items-center">
+                <!-- <div class="flex items-center">
                     <label for="wallet" class="flex items-center mb-6 h-[38px]">
                         <div class="flex items-center w-12 h-full mr-4 leading-10 text-right">
                             <span class="inline-block w-8 h-8 ml-auto">
@@ -71,14 +78,16 @@
                     <a-form-item class="flex-1 border-b border-gray-100">
                         <span>My wallet</span>
                     </a-form-item>
-                </div>
+                </div> -->
             </div>
         </div>
 
+        <!-- MORE DETAILS -->
         <div v-if="!isMoreDetails" class="py-4 mt-8 bg-white rounded-lg">
             <button @click="isMoreDetails = true" class="w-full py-3 font-semibold bg-white rounded-lg text-primary" type="button">More Details</button>
         </div>
 
+        <!-- SHOWW MORE DETAILS -->
         <template v-if="isMoreDetails">
             <!-- ADVANCE FORM -->
             <div class="py-4 mt-8 bg-white rounded-lg">
@@ -92,7 +101,7 @@
                                 </span>
                             </div>
                         </label>
-                        <a-form-item class="flex-1 border-b border-gray-100" name="location" :rules="[{ required: true, message: 'Please input your location!' }]">
+                        <a-form-item class="flex-1 border-b border-gray-100" name="location">
                             <a-input class="px-0" v-model:value="formState.location" size="small" :bordered="false" placeholder="location" />
                         </a-form-item>
                     </div>
@@ -106,7 +115,7 @@
                                 </span>
                             </div>
                         </label>
-                        <a-form-item class="flex-1 border-b border-gray-100" name="withPerson" :rules="[{ required: true, message: 'Please input your with person!' }]">
+                        <a-form-item class="flex-1 border-b border-gray-100" name="withPerson">
                             <a-input class="px-0" v-model:value="formState.withPerson" size="small" :bordered="false" placeholder="With person" />
                         </a-form-item>
                     </div>
@@ -114,9 +123,9 @@
             </div>
 
             <!-- ADVANCE FORM -->
-            <div class="py-4 mt-8 bg-white rounded-lg">
+            <div v-if="false" class="py-4 mt-8 bg-white rounded-lg">
                 <div class="container px-8">
-                    <!-- LOCATION -->
+                    <!-- AVATAR -->
                     <div class="flex items-center text-primary">
                         <label for="note" class="flex items-center mb-6 h-[38px]">
                             <div class="flex items-center w-12 h-full mr-4 leading-10 text-right">
@@ -134,10 +143,12 @@
         </template>
 
         <!-- BUTTON -->
-        <div class="mt-5">
-            <a-form-item>
-                <a-button class="w-full" size="small" type="primary" html-type="submit">Sign In</a-button>
-            </a-form-item>
+        <div class="container">
+            <div class="mt-5">
+                <a-form-item>
+                    <a-button class="w-full" size="large" type="primary" html-type="submit">Add transaction</a-button>
+                </a-form-item>
+            </div>
         </div>
     </a-form>
 </template>
@@ -148,23 +159,26 @@ import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import { I_Category_res } from "@/interfaces/categoryInterface";
 import { useStore } from "vuex";
+import { lcStorage } from "@/helpers/lcStorage";
+import { USER_LOGIN } from "@/constant";
+import { RouteLocationRaw } from "vue-router";
 
 export default {
+    beforeRouteEnter(to: RouteLocationRaw, from: RouteLocationRaw, next: any) {
+        if (!lcStorage.get(USER_LOGIN)) {
+            // Chuyển hướng nếu người dùng chưa đăng nhập
+            next("/login");
+        } else {
+            // Nếu đã đăng nhập, tiếp tục hiển thị component
+            next();
+        }
+    },
     setup() {
         const store = useStore();
-
-        const color = ref("#1668dc");
 
         store.dispatch("categoryModule/getListCategory");
 
         const listCategory: ComputedRef<I_Category_res[]> = computed(() => store.state.categoryModule.listCategory);
-
-        const handleChange = (value: string) => {
-            const categorySelected = listCategory.value.find((category) => category._id === value);
-            if (categorySelected?.color !== undefined) {
-                color.value = categorySelected?.color;
-            }
-        };
 
         const isMoreDetails = ref(false);
         const formState = reactive({
@@ -180,14 +194,14 @@ export default {
             values.total = +values.total;
             values.createDay = dayjs(values.createDay).format("DD/MM/YYYY");
             console.log(values);
-            store.dispatch("transactionModule/createTransaction", values)
+            store.dispatch("transactionModule/createTransaction", values);
         };
 
         const onFinishFailed = (errorInfo: any) => {
             console.log("Failed:", errorInfo);
         };
 
-        return { formState, onFinish, onFinishFailed, isMoreDetails, listCategory, handleChange, color };
+        return { formState, onFinish, onFinishFailed, isMoreDetails, listCategory };
     },
 };
 </script>

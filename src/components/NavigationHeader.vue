@@ -5,7 +5,6 @@
                 <!-- LEFT -->
                 <div class="">
                     <h1 v-if="meta.text" class="ml-2 text-xl font-bold text-dark">{{ meta.text }}</h1>
-                    <h1 v-if="!meta.text" class="ml-2 text-xl font-bold text-dark">Hey {{ userLogin?.name }}</h1>
                 </div>
 
                 <!-- RIGHT -->

@@ -7,7 +7,7 @@ const routes: Array<RouteRecordRaw> = [
         path: "/",
         name: "home",
         meta: {
-            text: "Home", isShowFooter: true,
+            isShowFooter: true,
         },
         component: () => import(/* webpackChunkName: "home" */ "../views/HomeView.vue"),
     },
@@ -56,10 +56,10 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import(/* webpackChunkName: "category" */ "../views/CategoryView.vue"),
     },
     {
-        path: "/new-transaction",
-        name: "new-transaction",
+        path: "/add-transaction",
+        name: "add-transaction",
         meta: { text: "Add transaction", isShowFooter: true },
-        component: () => import(/* webpackChunkName: "new-transaction" */ "../views/NewTransactionView.vue"),
+        component: () => import(/* webpackChunkName: "add-transaction" */ "../views/AddTransactionView.vue"),
     },
 ];
 

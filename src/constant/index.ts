@@ -1,5 +1,6 @@
 const isProduction = process.env.NODE_ENV === "production";
-export const BASE_URL = isProduction ? "https://l9-learning.onrender.com/api/v1" : "http://localhost:3001/api/v1";
+// export const BASE_URL = isProduction ? "https://l9-learning.onrender.com/api/v1" : "http://localhost:3001/api/v1";
+export const BASE_URL = "http://localhost:3001/api/v1";
 
 export const USER_LOGIN = "USER_LOGIN";
 
@@ -32,7 +33,7 @@ export const PROFILE_OPTION = [
 
 export const NAV_ITEMS = [
     {
-        icon: "t2ico-category",
+        icon: "t2ico-home",
         router: "/",
     },
     {
@@ -41,10 +42,10 @@ export const NAV_ITEMS = [
     },
     {
         icon: "t2ico-plus",
-        router: "/new-transaction",
+        router: "/add-transaction",
     },
     {
-        icon: "t2ico-presentation",
+        icon: "t2ico-category",
         router: "/category",
     },
     {

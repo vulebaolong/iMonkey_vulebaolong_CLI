@@ -11,6 +11,7 @@ interface CategoryState {
 // Định nghĩa kiểu cho mutations
 interface CategoryMutations extends MutationTree<CategoryState> {
     setListCategory(state: CategoryState, data: I_Category_res[]): void;
+    logout(state: CategoryState): void;
 }
 
 // Định nghĩa kiểu cho actions
@@ -27,6 +28,9 @@ const categoryState: CategoryState = {
 const categoryMutations: CategoryMutations = {
     setListCategory(state, data) {
         state.listCategory = data;
+    },
+    logout(state) {
+        state.listCategory = null;
     },
 };
 
@@ -74,11 +78,32 @@ const categoryActions: CategoryActions = {
     },
 };
 
+const categoryGetters = {
+    categoryIntransaction(state: CategoryState) {
+        if (state.listCategory !== null) {
+            const modifiedList = [...state.listCategory]; // Tạo một bản sao của listCategory để thay đổi
+
+            modifiedList.unshift({
+                _id: "All transaction",
+                __v: 0,
+                color: "#1668dc",
+                createdAt: "",
+                title: "All transaction",
+                updatedAt: "",
+                user_Id: "",
+            });
+
+            return modifiedList; // Trả về giá trị đã thay đổi
+        }
+    },
+};
+
 const categoryModule: Module<CategoryState, any> = {
     namespaced: true,
     state: categoryState,
     mutations: categoryMutations,
     actions: categoryActions,
+    getters: categoryGetters,
 };
 
 export default categoryModule;

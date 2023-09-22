@@ -1,24 +1,52 @@
 <template>
-    <div class="home">home</div>
+    <NavigationBrand />
+    <div class="mt-8">
+        <div class="container p-8">
+            <!-- INFO -->
+            <div v-if="userLogin" class="space-y-5">
+                <div class="text-center">
+                    <p class="text-2xl font-bold text-primary">{{ userLogin.name }}</p>
+                    <p class="mt-1 font-semibold text-gray-400">{{ userLogin.email }}</p>
+                </div>
+                <div class="">
+                    <!-- TOTAL -->
+                    <div class="p-3 truncate rounded-lg">
+                        <div class="flex items-center justify-center gap-2">
+                            <i class="text-4xl text-dark t2ico t2ico-wallet"></i>
+                            <span class="text-2xl font-black truncate text-red">-${{ total }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div v-if="!userLogin" class="flex items-center justify-center gap-2">
+                <router-link to="/login">
+                    <a-button type="primary">Login</a-button>
+                </router-link>
+                <router-link to="/register">
+                    <a-button type="primary">Register</a-button>
+                </router-link>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script lang="ts">
-import { RouteLocationRaw } from "vue-router";
-import { lcStorage } from "@/helpers/lcStorage";
-import { USER_LOGIN } from "@/constant";
+import NavigationBrand from "@/components/NavigationBrand.vue";
+import { useStore } from "vuex";
+import { computed, ComputedRef } from "vue";
+import { I_login_res } from "@/interfaces/userInterface";
 
 export default {
-    beforeRouteEnter(to: RouteLocationRaw, from: RouteLocationRaw, next: any) {
-        if (!lcStorage.get(USER_LOGIN)) {
-            // Chuyển hướng nếu người dùng chưa đăng nhập
-            next("/login");
-        } else {
-            // Nếu đã đăng nhập, tiếp tục hiển thị component
-            next();
-        }
-    },
+    components: { NavigationBrand },
     setup() {
-        console.log(123);
+        const store = useStore();
+
+        const userLogin: ComputedRef<I_login_res> = computed(() => store.state.userModule.userLogin);
+
+        const total: ComputedRef<number> = computed(() => store.state.transactionModule.total);
+
+        return { userLogin, total };
     },
 };
 </script>

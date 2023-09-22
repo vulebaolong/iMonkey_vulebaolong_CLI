@@ -39,7 +39,7 @@
             <!-- TITLE &  BUTTON-->
             <div class="flex items-center justify-between w-full truncate">
                 <!-- TITLE -->
-                <span class="font-bold truncate ">{{ category.title }}</span>
+                <span class="text-base font-semibold truncate">{{ category.title }}</span>
 
                 <!-- BUTTON DELETE -->
                 <a-popconfirm placement="topRight" title="Are you sure delete this category?" @confirm="confirm(category)">
@@ -61,7 +61,20 @@ import { I_Category_res } from "@/interfaces/categoryInterface";
 import "../assets/styles/vue-color-kit.css";
 import { ColorPicker } from "vue-color-kit";
 import { BgColorsOutlined, DeleteOutlined } from "@ant-design/icons-vue";
+import { RouteLocationRaw } from 'vue-router';
+import { USER_LOGIN } from '@/constant';
+import { lcStorage } from '@/helpers/lcStorage';
+
 export default {
+    beforeRouteEnter(to: RouteLocationRaw, from: RouteLocationRaw, next: any) {
+        if (!lcStorage.get(USER_LOGIN)) {
+            // Chuyển hướng nếu người dùng chưa đăng nhập
+            next("/login");
+        } else {
+            // Nếu đã đăng nhập, tiếp tục hiển thị component
+            next();
+        }
+    },
     setup() {
         const store = useStore();
 
