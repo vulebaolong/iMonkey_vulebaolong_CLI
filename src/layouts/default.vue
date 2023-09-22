@@ -1,15 +1,22 @@
 <template>
+    <NavigationHeader />
     <slot />
-    <NavigationBottom />
+    <NavigationBottom v-if="meta.isShowFooter"/>
 </template>
 
 <script lang="ts">
 import NavigationBottom from "@/components/NavigationBottom.vue";
+import NavigationHeader from "@/components/NavigationHeader.vue";
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 
 export default {
-    components: { NavigationBottom },
+    components: { NavigationBottom, NavigationHeader },
     setup() {
-        return {};
+        const route = useRoute()
+        return {
+            meta: computed(() => route.meta)
+        };
     },
 };
 </script>

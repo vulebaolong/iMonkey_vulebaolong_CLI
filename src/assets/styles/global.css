@@ -35,3 +35,11 @@ body {
     background-color: rgba(100, 116, 139, 0.502);
 }
 /* SCROLLBAR - end */
+
+.ant-popover-inner {
+    background: #f7f8f9 !important;
+}
+
+.ant-select-selector {
+    @apply !pl-0
+}

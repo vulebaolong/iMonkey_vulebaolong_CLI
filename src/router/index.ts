@@ -6,24 +6,28 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: "/",
         name: "home",
+        meta: {
+            text: "Home", isShowFooter: true,
+        },
         component: () => import(/* webpackChunkName: "home" */ "../views/HomeView.vue"),
     },
     {
         path: "/register",
         name: "register",
         meta: { layout: "auth" },
-        component: () => import(/* webpackChunkName: "about" */ "../views/RegisterView.vue"),
+        component: () => import(/* webpackChunkName: "register" */ "../views/RegisterView.vue"),
     },
     {
         path: "/login",
         name: "login",
         meta: { layout: "auth" },
-        component: () => import(/* webpackChunkName: "about" */ "../views/LoginView.vue"),
+        component: () => import(/* webpackChunkName: "login" */ "../views/LoginView.vue"),
     },
     {
         path: "/profile",
         name: "profile",
-        component: () => import(/* webpackChunkName: "about" */ "../views/ProfileView.vue"),
+        meta: { text: "Profile", isShowFooter: true },
+        component: () => import(/* webpackChunkName: "profile" */ "../views/ProfileView.vue"),
         beforeEnter(to, from, next) {
             if (!lcStorage.get(USER_LOGIN)) {
                 // Chuyển hướng nếu người dùng chưa đăng nhập
@@ -32,12 +36,30 @@ const routes: Array<RouteRecordRaw> = [
                 // Nếu đã đăng nhập, tiếp tục hiển thị component
                 next();
             }
-        }
+        },
     },
     {
         path: "/logout",
         name: "logout",
-        component: () => import(/* webpackChunkName: "about" */ "../views/LogoutView.vue"),
+        component: () => import(/* webpackChunkName: "logout" */ "../views/LogoutView.vue"),
+    },
+    {
+        path: "/list-transaction",
+        name: "list-transaction",
+        meta: { text: "List transaction", isShowFooter: true },
+        component: () => import(/* webpackChunkName: "list-transaction" */ "../views/ListTransactionView.vue"),
+    },
+    {
+        path: "/category",
+        name: "category",
+        meta: { text: "Category", isShowFooter: true },
+        component: () => import(/* webpackChunkName: "category" */ "../views/CategoryView.vue"),
+    },
+    {
+        path: "/new-transaction",
+        name: "new-transaction",
+        meta: { text: "Add transaction", isShowFooter: true },
+        component: () => import(/* webpackChunkName: "new-transaction" */ "../views/NewTransactionView.vue"),
     },
 ];
 

@@ -11,21 +11,44 @@ export const PROFILE_OPTION = [
     {
         name: "My Wallet",
         icon: "t2ico-wallet",
-        route: "/home",
+        route: "/",
     },
     {
         name: "Tools",
         icon: "t2ico-ticket-star",
-        route: "/home",
+        route: "/",
     },
     {
         name: "About",
         icon: "t2ico-info-square",
-        route: "/home",
+        route: "/",
     },
     {
         name: "Logout",
         icon: "t2ico-logout",
         route: "/logout",
+    },
+];
+
+export const NAV_ITEMS = [
+    {
+        icon: "t2ico-category",
+        router: "/",
+    },
+    {
+        icon: "t2ico-chart",
+        router: "/list-transaction",
+    },
+    {
+        icon: "t2ico-plus",
+        router: "/new-transaction",
+    },
+    {
+        icon: "t2ico-presentation",
+        router: "/category",
+    },
+    {
+        icon: "t2ico-profile",
+        router: "/profile",
     },
 ];

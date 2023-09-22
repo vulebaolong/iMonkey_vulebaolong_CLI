@@ -9,40 +9,15 @@
                 </li>
             </ul>
         </div>
-
-        <!-- PLUS -->
-        <div class="absolute p-2 bg-dark-light aspect-square w-[15%] top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 rounded-full">
-            <div class="flex items-center justify-center w-full h-full rounded-full bg-primary">
-                <i class="text-white t2ico t2ico-plus"></i>
-            </div>
-        </div>
     </footer>
 </template>
 
 <script lang="ts">
 import { reactive } from "vue";
+import { NAV_ITEMS } from '@/constant';
 export default {
     setup() {
-        const navItems = reactive([
-            {
-                icon: "t2ico-category",
-                router: "/",
-            },
-            {
-                icon: "t2ico-chart",
-                router: "/",
-                // router: "/report",
-            },
-            {
-                icon: "t2ico-presentation",
-                router: "/",
-                // router: "/budget",
-            },
-            {
-                icon: "t2ico-profile",
-                router: "/profile",
-            },
-        ]);
+        const navItems = reactive(NAV_ITEMS);
         return { navItems };
     },
 };

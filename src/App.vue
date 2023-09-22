@@ -23,4 +23,3 @@ if (process.env.NODE_ENV !== "production") console.log("Ứng dụng đang chạ
 
 const layout = computed(() => (route.meta.layout || PUBLIC_LAYOUT) + "-layout");
 </script>
-./helpers/messageHelper
