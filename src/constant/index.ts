@@ -10,11 +10,6 @@ export const PUBLIC_LAYOUT = "default";
 
 export const PROFILE_OPTION = [
     {
-        name: "Api",
-        icon: "t2ico-document",
-        route: "https://documenter.getpostman.com/view/16940726/2s9YJW4kVn",
-    },
-    {
         name: "My Wallet",
         icon: "t2ico-wallet",
         route: "/",

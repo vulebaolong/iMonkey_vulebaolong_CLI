@@ -16,6 +16,17 @@
             </div>
             <div class="col-span-1">
                 <ul>
+                    <li>
+                        <a href="https://documenter.getpostman.com/view/16940726/2s9YJW4kVn" target="_blank" rel="noopener noreferrer">
+                            <div class="flex items-center text-left">
+                                <i class="text-2xl t2ico-document"></i>
+                                <h5 class="ml-3 font-semibold">Api</h5>
+                            </div>
+                            <div class="flex items-center text-right">
+                                <i class="t2ico t2ico-arrow-right"></i>
+                            </div>
+                        </a>
+                    </li>
                     <li v-for="(profile, index) in profileOption" :key="index" class="last:text-red">
                         <router-link :to="profile.route" class="flex items-center justify-between py-3">
                             <div class="flex items-center text-left">
@@ -51,7 +62,7 @@ export default {
             next();
         }
     },
-    
+
     setup() {
         const store = useStore();
         const profileOption = reactive(PROFILE_OPTION);
