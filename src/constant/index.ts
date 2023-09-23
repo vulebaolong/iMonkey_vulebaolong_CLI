@@ -1,6 +1,6 @@
 const isProduction = process.env.NODE_ENV === "production";
-// export const BASE_URL = isProduction ? "https://l9-learning.onrender.com/api/v1" : "http://localhost:3001/api/v1";
-export const BASE_URL = "http://localhost:3001/api/v1";
+export const BASE_URL = isProduction ? "https://imonkey.onrender.com/api/v1" : "http://localhost:3001/api/v1";
+// export const BASE_URL = "http://localhost:3001/api/v1";
 
 export const USER_LOGIN = "USER_LOGIN";
 
@@ -9,6 +9,11 @@ export const TOKEN = "TOKEN";
 export const PUBLIC_LAYOUT = "default";
 
 export const PROFILE_OPTION = [
+    {
+        name: "Api",
+        icon: "t2ico-document",
+        route: "https://documenter.getpostman.com/view/16940726/2s9YJW4kVn",
+    },
     {
         name: "My Wallet",
         icon: "t2ico-wallet",

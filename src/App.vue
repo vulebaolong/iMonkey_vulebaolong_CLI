@@ -1,5 +1,6 @@
 <template>
     <context-holder />
+    <loading />
     <component :is="layout">
         <router-view />
     </component>
@@ -12,6 +13,7 @@ import { computed } from "vue";
 
 import { setMessageApi } from "./helpers/messageHelper";
 import { message } from "ant-design-vue";
+import Loading from "./components/Loading.vue";
 const [messageApi, contextHolder] = message.useMessage();
 
 setMessageApi(messageApi);

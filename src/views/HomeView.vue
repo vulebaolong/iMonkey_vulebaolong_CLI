@@ -44,6 +44,8 @@ export default {
 
         const userLogin: ComputedRef<I_login_res> = computed(() => store.state.userModule.userLogin);
 
+        store.dispatch("transactionModule/getListTransaction");
+
         const total: ComputedRef<number> = computed(() => store.state.transactionModule.total);
 
         return { userLogin, total };

@@ -37,11 +37,15 @@ const categoryMutations: CategoryMutations = {
 const categoryActions: CategoryActions = {
     async getListCategory({ commit }) {
         try {
+            commit("loadingModule/setLoadingPage", true, { root: true });
+
             const { data } = await categoryApi.getListCategory();
 
             commit("setListCategory", data);
         } catch (err) {
             console.log(err);
+        } finally {
+            commit("loadingModule/setLoadingPage", false, { root: true });
         }
     },
 

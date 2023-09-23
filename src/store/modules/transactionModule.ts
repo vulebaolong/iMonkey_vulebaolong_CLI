@@ -36,7 +36,7 @@ const transactionMutations: TransactionMutations = {
     setListTransaction(state, transaction) {
         state.listTransaction = transaction;
         state.listFillterTransaction = transaction;
-        
+
         let total = 0;
         state.listFillterTransaction.forEach((transaction) => (total += transaction.total));
 
@@ -77,11 +77,17 @@ const transactionMutations: TransactionMutations = {
 const transactionActions: TransactionActions = {
     async getListTransaction({ commit }) {
         try {
+            commit("loadingModule/setLoadingPage", true, { root: true });
+
             const { data } = await transactionApi.getListTransaction();
+
             console.log(data);
+
             commit("setListTransaction", data);
         } catch (err) {
             console.log(err);
+        } finally {
+            commit("loadingModule/setLoadingPage", false, { root: true });
         }
     },
 
