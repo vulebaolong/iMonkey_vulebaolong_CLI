@@ -58,7 +58,7 @@ const onFinish = async (values: any) => {
 
         await userApi.register(values);
 
-        success("Đăng ký thành công");
+        success("Sign Up Success");
 
         store.commit("userModule/setAutoFill", {
             email: values.email,
@@ -68,7 +68,7 @@ const onFinish = async (values: any) => {
         router.push("/login");
     } catch (err) {
         console.log(err);
-        error("Đăng ký không thành công");
+        error("Registration failed");
     } finally {
         loadingBtn.value = false;
     }

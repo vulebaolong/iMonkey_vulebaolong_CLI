@@ -63,10 +63,10 @@ const userActions: UserActions = {
 
             router.push("/profile");
 
-            success("Đăng nhập thành công");
+            success("Logged in successfully");
         } catch (err) {
             console.log(err);
-            error("Đăng nhập thành công");
+            error("Login unsuccessful");
         } finally {
             state.loadingBtn = false;
         }
